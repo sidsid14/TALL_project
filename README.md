@@ -8,6 +8,7 @@ composer require laravel/breeze
 Using Model, controllers, migrations and seeders to create a component. Eg-
 ```
 php artisan make:model Subscriber -mfc
+php artisan breeze:install (For Login,Register,ForgotPassword functionality)
 ```
 ## Setup
 ```
