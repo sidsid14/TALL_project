@@ -1,5 +1,5 @@
  <div class="flex flex-col bg-indigo-900 w-full h-screen"
-      x-data="{showSubscribe: false, showSuccess: true}">
+      x-data="{showSubscribe: false, showSuccess: false}">
      <nav class="flex pt-5 justify-between container mx-auto text-indigo-200">
          <a class="text-4xl font-bold 2xl:ml-4"
             href="/">
@@ -35,7 +35,14 @@
                       name="email"
                       placeholder="Email address"
                       wire:model="email"></x-input>
-             <span class="text-gray-100 text-xs">We will send you a confirmation email.</span>
+             <span class="text-gray-100 text-xs">
+             {{
+                 $errors->has('email')
+                 ? $errors->first('email')
+                 : 'We will send you a confirmation email.'
+                 
+             }}
+             </span>
              <x-button class="px-5 py-8 mt-5 w-80 bg-blue-500 justify-center">Get In</x-button>
          </form>
      </x-modal>
