@@ -1,11 +1,11 @@
- <div class="flex flex-col bg-indigo-900 w-full h-screen"
-      x-data="{showSubscribe: false, showSuccess: false}">
-     <nav class="flex pt-5 justify-between container mx-auto text-indigo-200">
-         <a class="text-4xl font-bold 2xl:ml-4"
+ <div class="flex flex-col bg-indigo-900 h-screen "
+      x-data="{showSubscribe: @entangle('showSubscribe'), showSuccess: @entangle('showSuccess')}">
+     <nav class="flex pt-5 justify-between mx-auto text-indigo-200 container px-4">
+         <a class="text-4xl font-bold"
             href="/">
              <x-application-logo class="w-16 h-16 fill-current"></x-application-logo>
          </a>
-         <div class="flex justify-end 2xl:mr-4">
+         <div class="flex justify-end">
              @auth
                  <a href="{{ route('dashboard') }}">Dashboard</a>
              @else
@@ -13,7 +13,7 @@
              @endauth
          </div>
      </nav>
-     <div class="flex container mx-auto items-center h-full">
+     <div class="flex  mx-auto items-center container px-4 h-full">
          <div class="flex flex-col w-1/3 items-start">
              <h1 class="text-white font-bold text-5xl leading-tight mb-4">Simple generic landing page to
                  subscribe</h1>
@@ -34,16 +34,18 @@
                       type="email"
                       name="email"
                       placeholder="Email address"
-                      wire:model="email"></x-input>
+                      wire:model.defer="email"></x-input>
              <span class="text-gray-100 text-xs">
-             {{
-                 $errors->has('email')
-                 ? $errors->first('email')
-                 : 'We will send you a confirmation email.'
-                 
-             }}
+                 {{ $errors->has('email') ? $errors->first('email') : 'We will send you a confirmation email.' }}
              </span>
-             <x-button class="px-5 py-8 mt-5 w-80 bg-blue-500 justify-center">Get In</x-button>
+             <x-button class="py-4 px-8 mt-5 w-80 bg-blue-500 justify-center">
+                <span class="animate-spin" wire:loading wire:target="subscribe">
+                    &#9696;
+                </span>
+                <span wire:loading.remove wire:target="subscribe">
+                    Get In
+                </span>
+             </x-button>
          </form>
      </x-modal>
 
@@ -55,9 +57,16 @@
          <p class="text-white text-5xl font-extrabold text-center mt-16">
              Great!
          </p>
-         <p class="text-white text-3xl text-center">
-             See you in your inbox
-         </p>
+
+         @if (request()->has('verified') && request()->verified == 1)
+             <p class="text-white text-3xl text-center">
+                 Thanks for confirming.
+             </p>
+         @else
+             <p class="text-white text-3xl text-center">
+                 See you in your inbox
+             </p>
+         @endif
      </x-modal>
 
  </div>
